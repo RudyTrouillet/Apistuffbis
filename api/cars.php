@@ -3,7 +3,7 @@
 $func = ['getALl',false];
 
 if(isset($_GET['slug']) && !empty($_GET['slug']))
-{
+{  
     $func = ['getBySlug', strtolower(htmlentities(htmlspecialchars($_GET['slug'])))];
 }
 

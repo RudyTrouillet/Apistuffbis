@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `attributes` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table bagnoles.attributes: ~0 rows (approximately)
+-- Dumping data for table bagnoles.attributes: ~11 rows (approximately)
 INSERT INTO `attributes` (`id`, `key_attribute`, `value_attribute`) VALUES
 	(1, 'ENERGY', 'DIESEL'),
 	(2, 'COLOR', 'BLACK'),
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `brands` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table bagnoles.brands: ~0 rows (approximately)
+-- Dumping data for table bagnoles.brands: ~3 rows (approximately)
 INSERT INTO `brands` (`id`, `name`, `slug`, `logo`) VALUES
 	(1, 'Peugeot', 'peugeot', NULL),
 	(2, 'Citroen', 'citroen', NULL),
@@ -69,13 +69,14 @@ CREATE TABLE IF NOT EXISTS `cars` (
   KEY `attribute_color_id` (`attribute_color_id`),
   CONSTRAINT `FK_cars_attributes` FOREIGN KEY (`attribute_color_id`) REFERENCES `attributes` (`id`),
   CONSTRAINT `FK_cars_models` FOREIGN KEY (`model_id`) REFERENCES `models` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table bagnoles.cars: ~19 rows (approximately)
+-- Dumping data for table bagnoles.cars: ~4 rows (approximately)
 INSERT INTO `cars` (`id`, `name`, `slug`, `description`, `model_id`, `attribute_color_id`) VALUES
 	(1, '306-1', '306_1', 'C\'est une 306 de model 1 et de couleur 2', 1, 2),
 	(2, '306-2', '306_2', 'C\'est une 306 de model 4 et de couleur 9', 4, 9),
-	(3, 'C4-1', 'C4_1', 'C\'est une C4 de modele 7 et de couleur 6', 7, 6);
+	(3, 'C4-1', 'C4_1', 'C\'est une C4 de modele 7 et de couleur 6', 7, 6),
+	(21, 'super tutureeee', 'super-tutureeee', 'elle va vite elle', 6, 3);
 
 -- Dumping structure for table bagnoles.models
 CREATE TABLE IF NOT EXISTS `models` (
@@ -98,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `models` (
   CONSTRAINT `FK_models_brands` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table bagnoles.models: ~0 rows (approximately)
+-- Dumping data for table bagnoles.models: ~9 rows (approximately)
 INSERT INTO `models` (`id`, `brand_id`, `name`, `phase`, `finition`, `hp`, `cv`, `door`, `attribute_energy_id`, `attribute_boite_id`) VALUES
 	(1, 1, '306', 1, 'Husky', 90, 6, 3, 1, 3),
 	(2, 1, '306', 1, 'Clodo', 45, 2, 5, 5, 7),
@@ -109,6 +110,21 @@ INSERT INTO `models` (`id`, `brand_id`, `name`, `phase`, `finition`, `hp`, `cv`,
 	(7, 2, 'C4', 1, 'Loeb', 150, 8, 3, 5, 3),
 	(8, 2, 'C4', 1, 'Classe', 100, 7, 5, 1, 3),
 	(9, 2, 'C4', 1, 'PasTropVite', 30, 2, 5, 5, 3);
+
+-- Dumping structure for table bagnoles.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) NOT NULL DEFAULT '0',
+  `api_key` varchar(41) NOT NULL DEFAULT '0',
+  `role` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table bagnoles.users: ~3 rows (approximately)
+INSERT INTO `users` (`id`, `nom`, `api_key`, `role`) VALUES
+	(1, 'Admin1', '0b8b3cab2b80fd3fff45bacd7da771be4a47bac3', 1),
+	(3, 'Visiteur', 'f1ff365aa8251c79bc0379b87e8923e1965ae3d5', 2),
+	(4, 'OnlyByBrand', '71bf65881f733f240fcdccc1978adffce87fa347', 3);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
