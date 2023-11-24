@@ -1,9 +1,7 @@
 <?php
 function getAll($params) {
-    require_once '../config/db.php';    
-    $request_models= "SELECT * FROM models";
-    $request_cars= "SELECT * FROM cars";
-    $request_car_all ="SELECT cars.NAME AS NomVoiture,
+    global $pdo;
+    $sql ="SELECT cars.NAME AS NomVoiture,
                         cars.slug AS Slug,
                         cars.description AS CarDescript,
                         models.name AS ModelName,
@@ -21,9 +19,7 @@ function getAll($params) {
                         INNER JOIN attributes ATT ON cars.attribute_color_id=ATT.id
                         INNER JOIN attributes ATT2 ON models.attribute_energy_id=ATT2.id
                         INNER JOIN attributes ATT3 ON models.attribute_boite_id=ATT3.id";
-$Result_all = $pdo->query($request_car_all);
-echo"</p>";
-foreach ($Result_all as $row) {
-    echo $row['NomVoiture'] . "|".$row['Slug'] . "|".$row['CarDescript'] . "</p>";
-}
+$req= $pdo->prepare($sql);
+$req->execute();
+return $req->fetchAll();
 }

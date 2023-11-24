@@ -18,4 +18,4 @@ if(isset($_POST['action']) && $_POST['action']== 'CREATE')
 }
 
 require_once '../funcs/cars/'. $func[0] .'.php';
-$func[0]($func[1]);
+echo(json_encode($func[0]($func[1])));

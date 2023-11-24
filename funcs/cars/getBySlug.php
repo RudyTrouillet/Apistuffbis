@@ -1,9 +1,8 @@
 <?php
 
 function getBySlug($params) {
-    require_once '../config/db.php';    
-    
-    $request_car_all ="SELECT cars.NAME AS NomVoiture,
+    global $pdo;    
+    $sql ="SELECT cars.NAME AS NomVoiture,
                         cars.slug AS Slug,
                         cars.description AS CarDescript,
                         models.name AS ModelName,
@@ -21,11 +20,9 @@ function getBySlug($params) {
                         INNER JOIN attributes ATT ON cars.attribute_color_id=ATT.id
                         INNER JOIN attributes ATT2 ON models.attribute_energy_id=ATT2.id
                         INNER JOIN attributes ATT3 ON models.attribute_boite_id=ATT3.id
-                        WHERE cars.slug ='$params'";
-$Result_all = $pdo->query($request_car_all);
-echo"</p>";
-foreach ($Result_all as $row) {
-    echo $row['NomVoiture'] . "|".$row['Slug'] . "|".$row['CarDescript'] . "|".$row['HorsePower'] . "|".$row['ModelName'] . "</p>";
-}
+                        WHERE cars.slug =:slug";
+$req= $pdo->prepare($sql);
+$req->execute(['slug' => $params]);
+return $req->fetchAll();
 }
 
