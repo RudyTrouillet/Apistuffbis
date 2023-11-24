@@ -1,10 +1,8 @@
 <?php
 
 function getByBrand($params) {
-    require_once '../config/db.php';    
-    // var_dump($params);
-    
-    $request_car_all ="SELECT cars.NAME AS NomVoiture,
+    global $pdo;    
+    $sql ="SELECT cars.NAME AS NomVoiture,
                         cars.slug AS Slug,
                         cars.description AS CarDescript,
                         models.name AS ModelName,
@@ -22,11 +20,9 @@ function getByBrand($params) {
                         INNER JOIN attributes ATT ON cars.attribute_color_id=ATT.id
                         INNER JOIN attributes ATT2 ON models.attribute_energy_id=ATT2.id
                         INNER JOIN attributes ATT3 ON models.attribute_boite_id=ATT3.id
-                        WHERE brands.name = '$params'";
-$Result_all = $pdo->query($request_car_all);
-echo"</p>";
-foreach ($Result_all as $row) {
-    echo $row['NomVoiture'] . "|".$row['Slug'] . "|".$row['CarDescript'] . "|".$row['HorsePower'] . "|".$row['ModelName'] . "</p>";
-}
+                        WHERE brands.name = :brand";
+$req= $pdo->prepare($sql);
+$req->execute(['brand' => $params]);
+return $req->fetchAll();
 }
 
